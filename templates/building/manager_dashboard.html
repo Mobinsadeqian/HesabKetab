@@ -1,4 +1,32 @@
-<html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>داشبورد</title>
+</head>
+<body>
+
     <h1>hello to salam</h1>
-    <a href="/buildingmanager/logout">EXit</a>
+    
+    <h2>سلام به {{ user.first_name }}</h2>
+    <a href="/buildingmanager/logout/">Exit</a>
+  
+    <h3>هزینه‌ها:</h3>
+    {% for expense in expenses %}
+        <p>{{ expense.title }} - {{ expense.total_amount }} تومان</p>
+    {% endfor %}
+    <a href="{% url 'add_new_expense' %}"><button>اضافه کردن هزینه</button></a>
+    {% comment %}
+     <a href="{% url 'manage_expenses' %}"><button>مدیریت هزینه‌ها</button></a>
+     {% endcomment %}
+    <h3>واحدها:</h3>
+    {% for unit in units %}
+        <p>واحد {{ unit.unit_number }} - ساکن: {{ unit.unit_name }}</p>
+    {% endfor %}
+    {% comment %}
+    <a href="{% url 'add_new_unit' %}"><button>اضافه کردن واحد</button></a>
+    <a href="{% url 'manage_units' %}"><button>مدیریت واحدها</button></a>
+    {% endcomment %}
+
+</body>
 </html>

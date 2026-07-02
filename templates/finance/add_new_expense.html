@@ -1,0 +1,13 @@
+<html>
+    <h1>اضافه کردن هزینه</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        عنوان هزینه
+        <input type="text" name="title_expnese">
+        <br><br>
+        مبلغ پرداختی کل
+        <input type="text" name="amount_expnese">
+        <br><br><br>
+        <input type="submit" value="تایید">
+    </form>
+</html>

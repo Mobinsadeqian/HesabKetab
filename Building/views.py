@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import BuildManager
+from .models import BuildManager, BuildingExpense, Unit
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -30,8 +30,19 @@ def login_manager(request):
 
 @login_required
 def manager_dashboard(request):
-    return render(request, 'building/manager_dashboard.html')
+    current_manager = request.user
+    my_units = Unit.objects.filter(manager=current_manager)
+    expenses = BuildingExpense.objects.filter(manager=current_manager)
+
+
+    context = {
+        'units' : my_units,
+        'expenses' : expenses,
+        'user': current_manager
+    }
+    return render(request, 'building/manager_dashboard.html', context)
 
 def logout_user(request):
     logout(request)
     return redirect('home_page')
+

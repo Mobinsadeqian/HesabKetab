@@ -21,7 +21,7 @@ class Unit(models.Model):
     telegram_chat_id = models.CharField(max_length=50, blank=True, null=True, verbose_name='آیدی تلگرام مالک')
 
     def __str__(self):
-        return f"واحد {self.unit_number} - {self.resident_name}"
+        return f"واحد {self.unit_number} - {self.unit_name}"
     
     class Meta:
         verbose_name = 'واحد'
