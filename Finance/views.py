@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Invoice, Payment
 from Building.models import BuildingExpense, BuildManager, Unit
@@ -15,3 +15,8 @@ def add_expense(request):
         expense = BuildingExpense.objects.create(title=title, total_amount=amount, manager=current_user)
         return redirect('manager_dashboard')
     return render(request, 'finance/add_new_expense.html')
+
+def delete_expense(request, expense_id):
+    expense = get_object_or_404(BuildingExpense, id=expense_id, manager=request.user)
+    expense.delete()
+    return redirect('manager_dashboard')

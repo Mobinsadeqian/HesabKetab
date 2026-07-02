@@ -1,0 +1,16 @@
+<html>
+    <h1>اضافه کردن واحد جدید</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        نام مالک
+        <input type="text" name="unit_name">
+        <br><br>
+        شماره واحد
+        <input type="number" name="unit_number">
+        <br><br>
+        شماره تلفن مالک
+        <input type="text" name="unit_phone_number">
+        <br><br><br>
+        <input type="submit" value="تایید">
+    </form>
+</html>

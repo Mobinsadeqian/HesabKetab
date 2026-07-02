@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import BuildManager, BuildingExpense, Unit
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -46,3 +46,17 @@ def logout_user(request):
     logout(request)
     return redirect('home_page')
 
+def add_new_unit(request):
+    if request.method == "POST":
+        unit_name = request.POST.get('unit_name')
+        unit_number = request.POST.get('unit_number')
+        unit_phone_number = request.POST.get('unit_phone_number')
+        current_user = request.user
+        Unit.objects.create(unit_name=unit_name, unit_number=unit_number, phone_number=unit_phone_number, manager=current_user)
+        return redirect('manager_dashboard')
+    return render(request, 'building/add_new_unit.html')
+
+def delete_unit(request, unit_id):
+    unit = get_object_or_404(Unit, id=unit_id, manager=request.user)
+    unit.delete()
+    return redirect('manager_dashboard')

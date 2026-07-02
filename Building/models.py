@@ -15,8 +15,8 @@ class BuildManager(AbstractUser):
     
 class Unit(models.Model):
     manager = models.ForeignKey(BuildManager, on_delete=models.CASCADE, related_name='units', verbose_name='مدیر ساختمان')
-    unit_name = models.CharField(max_length=40, unique=True, blank=False, null=False, verbose_name='نام مالک واحد')
-    unit_number = models.PositiveIntegerField(unique=True, verbose_name='شماره واحد')
+    unit_name = models.CharField(max_length=40, blank=False, null=False, verbose_name='نام مالک واحد')
+    unit_number = models.PositiveIntegerField(verbose_name='شماره واحد')
     phone_number = models.CharField(max_length=11, verbose_name='شماره همراه مالک')
     telegram_chat_id = models.CharField(max_length=50, blank=True, null=True, verbose_name='آیدی تلگرام مالک')
 
