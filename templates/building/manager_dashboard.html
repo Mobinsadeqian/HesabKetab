@@ -14,7 +14,7 @@
     <h3>هزینه‌ها:</h3>
     {% for expense in expenses %}
         <p>{{ expense.title }} - {{ expense.total_amount }} تومان <a href="{% url 'delete_expense' expense.id %}" onclick="return confirm('آیا از حذف این هزینه مطمئن هستید؟');" 
-           style="color: red; margin-right: 10px;"><button>حذف</button></a></p>
+           style="color: red; margin-right: 10px;"><button>حذف</button></a> <a href="{% url 'edit_expense' expense.id %}"><button>ویرایش</button></a></p>
     {% endfor %}
     <a href="{% url 'add_new_expense' %}"><button>اضافه کردن هزینه</button></a>
     {% comment %}

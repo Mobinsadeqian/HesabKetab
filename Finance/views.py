@@ -20,3 +20,15 @@ def delete_expense(request, expense_id):
     expense = get_object_or_404(BuildingExpense, id=expense_id, manager=request.user)
     expense.delete()
     return redirect('manager_dashboard')
+
+def edit_expense(request, expense_id):
+    expense = get_object_or_404(BuildingExpense, id=expense_id, manager=request.user)
+    if request.method == "POST":
+        expense.title = request.POST.get('expense_title')
+        expense.total_amount = request.POST.get('expense_amount')
+        expense.save()
+        return redirect('manager_dashboard')
+    context = {
+        'expense' : expense
+    }
+    return render(request, 'finance/edit_expense.html', context)

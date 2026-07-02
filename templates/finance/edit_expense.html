@@ -1,0 +1,14 @@
+<html>
+    <h1>ویرایش هزینه</h1>
+    {{ expense.title }}
+    <form method="post" action="">
+        {% csrf_token %}
+        عنوان
+        <input type="text" name="expense_title" placeholder="{{ expense.title }}" value="{{ expense.title }}">
+        <br><br>
+         مبلغ پرداختی کل
+         <input type="text" name="expense_amount" placeholder="{{ expense.total_amount }}" value="{{ expense.total_amount }}">
+         <br><br><br>
+         <input type="submit" value="تایید">
+    </form>
+</html>
