@@ -22,7 +22,7 @@
      {% endcomment %}
     <h3>واحدها:</h3>
     {% for unit in units %}
-        <p>واحد {{ unit.unit_number }} - ساکن: {{ unit.unit_name }} <a href="{% url 'delete_unit' unit.id %}" onclick="return confirm('آیا از حذف این واحد مطمئن هستید؟');" style="color: red; margin-right: 10px;"><button>حذف</button></a></p>
+        <p>واحد {{ unit.unit_number }} - ساکن: {{ unit.unit_name }} <a href="{% url 'delete_unit' unit.id %}" onclick="return confirm('آیا از حذف این واحد مطمئن هستید؟');" style="color: red; margin-right: 10px;"><button>حذف</button></a> <a href="{% url 'edit_unit' unit.id %}"><button>ویرایش</button></a></p>
     {% endfor %}
     
     <a href="{% url 'add_new_unit' %}"><button>اضافه کردن واحد</button></a>

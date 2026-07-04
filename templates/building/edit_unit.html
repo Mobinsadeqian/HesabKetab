@@ -1,0 +1,17 @@
+<html>
+    <p>واحد {{ unit.unit_name }}</p>
+    <form method="post" action="">
+        {% csrf_token %}
+        نام مالک
+        <input type="text" name="unit_name" placeholder="{{unit.unit_name}}" value="{{unit.unit_name}}">
+        <br><br>
+        شماره تلفن مالک
+        <input type="text" name="unit_phonenumber" placeholder="{{unit.phone_number}}" value="{{unit.phone_number}}">
+        <br><br>
+        شماره واحد
+        <input type="number" name="unit_number" placeholder="{{unit.unit_number}}" value="{{unit.unit_number}}">
+        <br><br><br>
+        <input type="submit" value="تایید">
+
+    </form>
+</html>

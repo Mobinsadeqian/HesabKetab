@@ -60,3 +60,16 @@ def delete_unit(request, unit_id):
     unit = get_object_or_404(Unit, id=unit_id, manager=request.user)
     unit.delete()
     return redirect('manager_dashboard')
+
+def edit_unit(request, unit_id):
+    unit = get_object_or_404(Unit, id=unit_id, manager=request.user)
+    if request.method == 'POST':
+        unit.unit_name = request.POST.get('unit_name')
+        unit.unit_number = request.POST.get('unit_number')
+        unit.unit_phone_number = request.POST.get('unit_phonenumber')
+        unit.save()
+        return redirect('manager_dashboard')
+    context = {
+            'unit' : unit
+        }
+    return render(request, 'building/edit_unit.html', context)
