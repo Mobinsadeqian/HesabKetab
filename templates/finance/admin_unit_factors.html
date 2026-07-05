@@ -1,0 +1,8 @@
+{% for factor in factors %}
+{{factor.expense}} <a><button>حذف</button></a> <a href="{% url 'submit_payment' factor.factor_id %}"><button>تایید پرداخت</button></a>
+<br><br>
+{{factor.amount}}
+<br><br>
+{{factor.status}}
+<br><br><br>
+{% endfor %}

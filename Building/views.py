@@ -1,18 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import BuildManager, BuildingExpense, Unit
+from Finance.models import Payment, Invoice
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+import random
 
 def register_new_manager(request):
     if request.method == "POST":
+        build_id = random.randint(1234567, 1234567891115)
+        manager_id = random.randint(1234567891, 123456789112)
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
         password = request.POST.get('password')
         phone_number = request.POST.get('phone_number')
         card_number = request.POST.get('card_number')
-        user = BuildManager.objects.create_user(first_name=first_name, last_name=last_name, username=username, password=password, phone_number=phone_number, card_number=card_number)
+        user = BuildManager.objects.create_user(first_name=first_name,manager_id=manager_id, build_id=build_id, last_name=last_name, username=username, password=password, phone_number=phone_number, card_number=card_number)
         return redirect('login_manager')
     return render(request, 'building/signup.html')
 
@@ -52,7 +56,8 @@ def add_new_unit(request):
         unit_number = request.POST.get('unit_number')
         unit_phone_number = request.POST.get('unit_phone_number')
         current_user = request.user
-        Unit.objects.create(unit_name=unit_name, unit_number=unit_number, phone_number=unit_phone_number, manager=current_user)
+        unit_id = random.randint(12345667, 9548383282)
+        Unit.objects.create(unit_name=unit_name, unit_number=unit_number, phone_number=unit_phone_number, manager=current_user, unit_id=unit_id)
         return redirect('manager_dashboard')
     return render(request, 'building/add_new_unit.html')
 
@@ -73,3 +78,19 @@ def edit_unit(request, unit_id):
             'unit' : unit
         }
     return render(request, 'building/edit_unit.html', context)
+
+
+def building_page(request):
+    if request.method == "GET":
+        build_id = request.GET.get('build_id')
+        build = get_object_or_404(BuildManager, build_id=build_id)
+        units = build.units.all()
+        expenses = build.expenses.all()
+
+        context = {
+            'build_id' : build_id,
+            'build' : build,
+            'units': units,
+            'expenses': expenses
+        }
+        return render(request, 'building/building_page.html',context)

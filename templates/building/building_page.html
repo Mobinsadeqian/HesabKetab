@@ -1,0 +1,13 @@
+<h1>کد ساختمان شما: {{ build_id }}</h1>
+<h1>مدیر ساختمان: {{ build.first_name }} {{ build.last_name }}</h1>
+<br>
+<h2>لیست آخرین هزینه ها</h2>
+{% for expense in expenses %}
+{{expense.title}}
+<br>
+{{expense.total_amount}}
+{% endfor %}
+<br><br>
+<h2>{% for unit in units %}</h2>
+<h3>واحد {{unit.unit_number}} - ساکن: {{ unit.unit_name }} <a href="{% url 'unit_factors' unit.unit_id %}"><button>نمایش فاکتورهای صادر شده</button></a></h3>
+{% endfor %}

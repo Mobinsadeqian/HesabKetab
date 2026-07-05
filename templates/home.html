@@ -1,4 +1,15 @@
-<h1>home page</h1>
+<html lang="fa">
+    <h1>حساب‌کتاب</h1>
 
-<a href="{% url 'login_manager' %}"><button>login</button></a>
-<a href="{% url 'signup_manager' %}"><button>signup</button></a>
+    <a href="{% url 'login_manager' %}"><button>ورود</button></a>
+    <a href="{% url 'signup_manager' %}"><button>ثبت‌نام</button></a>
+    <br><br><br>
+    <form method="get" action="{% url 'building_page' %}">
+        {% csrf_token %}
+        <h2> کد ساختمان را وارد کنید</h2>
+        <p>توجه داشته باشید که این کد را باید از مدیر ساختمان تحویل بگیرید</p>
+        <input type="text" name="build_id">
+        <br><br>
+        <input type="submit" value="بررسی">
+    </form>
+</html>

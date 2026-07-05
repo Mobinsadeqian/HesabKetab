@@ -6,11 +6,13 @@ class BuildManager(AbstractUser):
     is_superuser = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=11, blank=True, null=True, verbose_name="شماره همراه مدیر")
     card_number = models.CharField(max_length=16, blank=True, null=True, verbose_name="شماره کارت جهت واریز شارژ")
+    build_id = models.CharField(max_length=20, unique=True,blank=True, null=True, verbose_name='کد ساختمان')
+    manager_id = models.CharField(max_length=34, unique=True, blank=True, null=True, verbose_name='آیدی مدیر')
 
     
     def __str__(self):
         if self.first_name and self.last_name:
-            return f"{self.first_name} {self.last_name}"
+            return f"{self.first_name} {self.last_name} - {self.manager_id}"
         return self.username
     
 class Unit(models.Model):
@@ -19,6 +21,7 @@ class Unit(models.Model):
     unit_number = models.PositiveIntegerField(verbose_name='شماره واحد')
     phone_number = models.CharField(max_length=11, verbose_name='شماره همراه مالک')
     telegram_chat_id = models.CharField(max_length=50, blank=True, null=True, verbose_name='آیدی تلگرام مالک')
+    unit_id = models.CharField(max_length=40, unique=True, blank=True, null=True, verbose_name='آیدی واحد')
 
     def __str__(self):
         return f"واحد {self.unit_number} - {self.unit_name}"
