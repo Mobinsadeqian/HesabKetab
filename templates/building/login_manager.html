@@ -80,6 +80,12 @@
         </svg>
         <span>بازگشت به صفحه اصلی</span>
     </a>
-
+    {% if messages %}
+    {% for message in messages %}
+        <script>
+            alert("{{ message }}");
+        </script>
+    {% endfor %}
+{% endif %}
 </body>
 </html>

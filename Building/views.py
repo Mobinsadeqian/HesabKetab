@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login
 import random
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
 
 def register_new_manager(request):
     if request.method == "POST":
@@ -25,14 +24,20 @@ def register_new_manager(request):
 def login_manager(request):
     if request.method == "POST":
         username = request.POST.get("username")
-        password = request.POST.get('password')
+        password = request.POST.get("password")
+
         user = authenticate(username=username, password=password)
+
         if user is not None:
             login(request, user)
-            return redirect('manager_dashboard')
+            return redirect("manager_dashboard")
         else:
-            return render(request, 'building/login_manager.html')
-    return render(request, 'building/login_manager.html')
+            messages.error(
+                request, "نام کاربری یا رمز عبور اشتباه است."
+            )
+            return render(request, "building/login_manager.html")
+
+    return render(request, "building/login_manager.html")
 
 @login_required
 def manager_dashboard(request):
@@ -60,12 +65,14 @@ def add_new_unit(request):
         current_user = request.user
         unit_id = random.randint(12345667, 9548383282)
         Unit.objects.create(unit_name=unit_name, unit_number=unit_number, phone_number=unit_phone_number, manager=current_user, unit_id=unit_id)
+        messages.success(request, 'واحد جدید با موفقیت اضافه شد')
         return redirect('manager_dashboard')
     return render(request, 'building/add_new_unit.html')
 
 def delete_unit(request, unit_id):
     unit = get_object_or_404(Unit, id=unit_id, manager=request.user)
     unit.delete()
+    messages.success(request, 'عملیات حذف با موفقیت انجام شد')
     return redirect('manager_dashboard')
 
 def edit_unit(request, unit_id):
@@ -75,6 +82,7 @@ def edit_unit(request, unit_id):
         unit.unit_number = request.POST.get('unit_number')
         unit.unit_phone_number = request.POST.get('unit_phonenumber')
         unit.save()
+        messages.success(request, 'عملیات آپدیت اطلاعات واحد با موفقیت انجام شد')
         return redirect('manager_dashboard')
     context = {
             'unit' : unit
