@@ -4,5 +4,11 @@
 {{factor.amount}}
 <br><br>
 {{factor.status}}
+<br><br>
+{% if factor.factor_image %}
+        <br>
+        <p style="color: green;">رسید آپلود شده است:</p>
+        <a href="{{ factor.factor_image.url }}" target="_blank">مشاهده رسید پرداختی</a>
+    {% endif %}
 <br><br><br>
 {% endfor %}

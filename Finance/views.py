@@ -70,3 +70,12 @@ def submit_payment(request, factor_id):
     factor.status = 'paid'
     factor.save()
     return redirect('manager_dashboard')
+
+def upload_receipt(request, factor_id):
+    invoice = get_object_or_404(Invoice, factor_id=factor_id)
+    if request.method == "POST" and request.FILES.get('receipt_file'):
+        uploaded_file = request.FILES.get('receipt_file')
+        invoice.factor_image = uploaded_file
+        invoice.save()
+        return redirect('unit_factors', unit_id=invoice.unit.unit_id)
+    return redirect('unit_factors', unit_id=invoice.unit.unit_id)

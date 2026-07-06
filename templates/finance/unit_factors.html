@@ -1,8 +1,19 @@
 {% for factor in factors %}
-{{factor.expense}} <a><button>اپلود رسید پرداختی</button></a>
-<br><br>
-{{factor.amount}}
-<br><br>
-{{factor.status}}
-<br><br><br>
+    <p>هزینه: {{ factor.expense.title }}</p>
+    <p>مبلغ: {{ factor.amount }}</p>
+    <p>وضعیت: {{ factor.status }}</p>
+
+    <form method="POST" action="{% url 'upload_receipt' factor.factor_id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="receipt_file" accept="image/*" required>
+        <button type="submit">تایید رسید</button>
+    </form>
+
+    {% if factor.factor_image %}
+        <br>
+        <p style="color: green;">رسید آپلود شده است:</p>
+        <a href="{{ factor.factor_image.url }}" target="_blank">مشاهده رسید فعلی</a>
+    {% endif %}
+    
+    <hr>
 {% endfor %}

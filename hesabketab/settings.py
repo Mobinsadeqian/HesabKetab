@@ -121,3 +121,6 @@ STATIC_URL = 'static/'
 AUTH_USER_MODEL = 'Building.BuildManager'
 
 LOGIN_URL = 'login_manager'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL  = '/media/'

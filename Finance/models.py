@@ -15,6 +15,7 @@ class Invoice(models.Model):
     due_time = models.DateTimeField(verbose_name='مهلت پرداخت', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ صدور فاکتور')
     factor_id = models.CharField(max_length=34, null=True, blank=True, unique=True, verbose_name='آیدی فاکتور')
+    factor_image = models.ImageField(upload_to='factor_image/', null=True, blank=True, verbose_name='تصویر رسید پرداخت')
 
     def __str__(self):
         return f"فاکتور واحد {self.unit.unit_number} -{self.unit.unit_name} - {self.amount:,} تومان ({self.get_status_display()})"
