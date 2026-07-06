@@ -137,12 +137,12 @@
     </div>
 
     {% if messages %}
+    {% for message in messages %}
         <script>
-            {% for message in messages %}
-                alert("{{ message }}");
-            </script>
-        {% endfor %}
-    {% endif %}
+            alert("{{ message }}");
+        </script>
+    {% endfor %}
+{% endif %}
 
 </body>
 </html>
