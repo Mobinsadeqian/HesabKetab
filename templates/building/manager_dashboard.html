@@ -2,34 +2,134 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>داشبورد</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌کتاب | داشبورد مدیریت ساختمان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-4 md:p-8">
 
-    <h1>صفحه داشبورد مدیریت ساختمان</h1>
-    
-    <h2>درود بر شما, {{ user.first_name }} {{ user.last_name }}</h2>
-    <h2>کد ساختمان: {{ user.build_id }}</h2>
-    <a href="/buildingmanager/logout/">Exit</a>
-  
-    <h3>هزینه‌ها:</h3>
-    {% for expense in expenses %}
-        <p>{{ expense.title }} - {{ expense.total_amount }} تومان <a href="{% url 'delete_expense' expense.id %}" onclick="return confirm('آیا از حذف این هزینه مطمئن هستید؟');" 
-           style="color: red; margin-right: 10px;"><button>حذف</button></a> <a href="{% url 'edit_expense' expense.id %}"><button>ویرایش</button></a></p>
-    {% endfor %}
-    <a href="{% url 'add_new_expense' %}"><button>اضافه کردن هزینه</button></a>
-    {% comment %}
-     <a href="{% url 'manage_expenses' %}"><button>مدیریت هزینه‌ها</button></a>
-     {% endcomment %}
-    <h3>واحدها:</h3>
-    {% for unit in units %}
-        <p>واحد {{ unit.unit_number }} - ساکن: {{ unit.unit_name }} <a href="{% url 'delete_unit' unit.id %}" onclick="return confirm('آیا از حذف این واحد مطمئن هستید؟');" style="color: red; margin-right: 10px;"><button>حذف</button></a> <a href="{% url 'edit_unit' unit.id %}"><button>ویرایش</button></a> <a href="{% url 'admin_unit_factors' unit.unit_id %}"><button>نمایش فاکتورهای پرداختی</button></a></p>
-    {% endfor %}
-    
-    <a href="{% url 'add_new_unit' %}"><button>اضافه کردن واحد</button></a>
-    {% comment %}
-    <a href="{% url 'manage_units' %}"><button>مدیریت واحدها</button></a>
-    {% endcomment %}
+    <div class="max-w-6xl mx-auto space-y-8">
+        
+        <div class="bg-slate-950 text-white rounded-2xl p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-slate-800">
+            <div class="flex items-center gap-4">
+                <span class="p-3 bg-blue-600 rounded-xl text-2xl shadow-lg shadow-blue-600/30">👑</span>
+                <div>
+                    <h1 class="text-xl font-bold">داشبورد مدیریت ساختمان</h1>
+                    <p class="text-xs text-slate-400 mt-1">خوش آمدید، <span class="text-blue-400 font-medium">{{ user.first_name }} {{ user.last_name }}</span></p>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                <div class="bg-slate-900 border border-slate-800 px-4 py-2.5 rounded-xl flex items-center justify-between gap-3">
+                    <span class="text-xs text-slate-400">کد ساختمان:</span>
+                    <span class="font-mono text-base font-bold tracking-widest text-blue-400 bg-slate-950 px-2.5 py-0.5 rounded-lg border border-slate-800">
+                        {{ user.build_id }}
+                    </span>
+                </div>
+                <a href="/buildingmanager/logout/" class="text-center bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold py-2.5 px-4 rounded-xl transition duration-150">
+                    خروج از سیستم
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-5 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col">
+                <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg">📊</span>
+                        <h2 class="font-bold text-slate-800 text-base">مدیریت هزینه‌ها</h2>
+                    </div>
+                    <a href="{% url 'add_new_expense' %}" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-3 rounded-lg transition duration-150 flex items-center gap-1">
+                        <span>➕ هزینه جدید</span>
+                    </a>
+                </div>
+
+                <div class="space-y-3 overflow-y-auto max-h-[500px] pr-1">
+                    {% for expense in expenses %}
+                        <div class="bg-slate-50 border border-slate-200/60 rounded-xl p-4 flex flex-col justify-between gap-3 hover:bg-slate-100/50 transition duration-150">
+                            <div class="flex justify-between items-start">
+                                <span class="text-sm font-bold text-slate-800">{{ expense.title }}</span>
+                                <span class="text-xs font-mono font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-md">{{ expense.total_amount }} تومان</span>
+                            </div>
+                            <div class="flex items-center justify-end gap-2 border-t border-slate-200/40 pt-2.5">
+                                <a href="{% url 'edit_expense' expense.id %}" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-[11px] font-medium py-1.5 px-3 rounded-lg transition duration-150">
+                                    ویرایش
+                                </a >
+                                <a href="{% url 'delete_expense' expense.id %}" onclick="return confirm('آیا از حذف این هزینه مطمئن هستید؟ با حذف این هزینه تمام فاکتورهای مربوط به واحدها پاک خواهند شد.');" class="bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white text-[11px] font-medium py-1.5 px-3 rounded-lg transition duration-150">
+                                    حذف
+                                </a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="text-center py-12 text-xs text-slate-400 bg-slate-50 rounded-xl border border-dashed">
+                            هنوز هیچ هزینه‌ای برای ساختمان ثبت نکرده‌اید.
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg">👥</span>
+                        <h2 class="font-bold text-slate-800 text-base">مدیریت واحدها</h2>
+                    </div>
+                    <a href="{% url 'add_new_unit' %}" class="bg-slate-950 hover:bg-slate-800 text-white text-xs font-bold py-2 px-3 rounded-lg transition duration-150 flex items-center gap-1">
+                        <span>➕ واحد جدید</span>
+                    </a>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right text-sm">
+                        <thead>
+                            <tr class="text-slate-400 text-xs border-b border-slate-100">
+                                <th class="pb-3 font-semibold">واحد</th>
+                                <th class="pb-3 font-semibold">نام ساکن</th>
+                                <th class="pb-3 font-semibold text-left">عملیات مدیریت واحد</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            {% for unit in units %}
+                                <tr class="hover:bg-slate-50/80 transition duration-150 group">
+                                    <td class="py-3.5 font-mono font-bold text-slate-800">
+                                        <span class="bg-blue-50 text-blue-600 px-2 py-1 rounded-md text-xs">واحد {{ unit.unit_number }}</span>
+                                    </td>
+                                    <td class="py-3.5 text-slate-600 font-medium">{{ unit.unit_name }}</td>
+                                    <td class="py-3.5 text-left">
+                                        <div class="inline-flex items-center gap-1.5">
+                                            <a href="{% url 'admin_unit_factors' unit.unit_id %}" class="bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white text-[11px] font-bold py-1.5 px-2.5 rounded-lg transition duration-150">
+                                                فاکتورها
+                                            </a>
+                                            <a href="{% url 'edit_unit' unit.id %}" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-[11px] font-medium py-1.5 px-2.5 rounded-lg transition duration-150">
+                                                ویرایش
+                                            </a>
+                                            <a href="{% url 'delete_unit' unit.id %}" onclick="return confirm('آیا از حذف این واحد مطمئن هستید؟');" class="bg-rose-50 hover:bg-rose-100 text-rose-600 text-[11px] font-medium py-1.5 px-2.5 rounded-lg transition duration-150">
+                                                حذف
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3" class="text-center py-12 text-xs text-slate-400 bg-slate-50 rounded-xl border border-dashed">
+                                        هنوز هیچ واحدی برای این ساختمان تعریف نکرده‌اید.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 </body>
 </html>

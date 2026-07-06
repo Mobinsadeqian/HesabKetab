@@ -1,26 +1,91 @@
-<html>
-    
-    <form method="post" action="">
-        {% csrf_token %}
-    نام
-    <input type="text" name="first_name">
-    <br><br>
-    نام خانوادگی
-    <input type="text" name="last_name">
-    <br><br>
-    یوزرنیم
-    <input type="text" name="username">
-    <br><br>
-    پسورد
-    <input type="text" name="password">
-    <br><br>
-    شماره تلفن
-    <input type="text" name="phone_number">
-    <br><br>
-    شماره کارت
-    <input type="text" name="card_number">
-    <br><br><br>
-    <input type="submit" value="تایید">
-</form>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌کتاب | ثبت‌نام مدیر ساختمان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen flex items-center justify-center p-4 md:p-8">
 
+    <div class="max-w-xl w-full bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+        
+        <div class="bg-slate-950 p-6 text-white text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl text-xl mb-3 shadow-lg shadow-blue-600/20">
+                ✨
+            </div>
+            <h1 class="text-xl font-bold">ثبت‌نام مدیر ساختمان جدید</h1>
+            <p class="text-xs text-slate-400 mt-2">با راه‌اندازی حساب خود، مدیریت مالی مجتمع را هوشمند و شفاف کنید</p>
+        </div>
+
+        <form method="post" action="" class="p-6 md:p-8 space-y-6">
+            {% csrf_token %}
+            
+            <div>
+                <h3 class="text-xs font-bold text-blue-600 uppercase tracking-wide border-b border-slate-100 pb-2 mb-4">۱. اطلاعات فردی و کاربری</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">نام</label>
+                        <input type="text" name="first_name" placeholder="مثال: علی" required
+                               class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">نام خانوادگی</label>
+                        <input type="text" name="last_name" placeholder="مثال: رضایی" required
+                               class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">نام کاربری (Username)</label>
+                        <input type="text" name="username" placeholder="ali_rezaei" required dir="ltr"
+                               class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 text-left font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">رمز عبور (Password)</label>
+                        <input type="password" name="password" placeholder="••••••••" required dir="ltr"
+                               class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 text-left font-mono">
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xs font-bold text-blue-600 uppercase tracking-wide border-b border-slate-100 pb-2 mb-4">۲. اطلاعات تماس و دریافت شارژ</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">شماره تلفن همراه</label>
+                        <input type="text" name="phone_number" placeholder="09123456789" required dir="ltr"
+                               class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 text-left font-mono tracking-wider">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">شماره کارت بانکی (جهت واریز شارژ ساکنین)</label>
+                        <input type="text" name="card_number" placeholder="6037-xxxx-xxxx-xxxx" required dir="ltr"
+                               class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 text-left font-mono tracking-widest">
+                        <p class="text-[10px] text-slate-400 mt-1">این شماره کارت در صفحه فاکتورها به ساکنین ساختمان جهت واریز وجه نمایش داده می‌شود.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4 flex flex-col gap-3">
+                <button type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 transition duration-150 cursor-pointer text-center">
+                    تایید و ساخت حساب مدیریت
+                </button>
+                
+                <div class="text-center text-xs text-slate-500">
+                    قبلاً ثبت‌نام کرده‌اید؟ 
+                    <a href="{% url 'login_manager' %}" class="text-blue-600 hover:text-blue-700 font-bold transition duration-150 mr-1">
+                        وارد شوید
+                    </a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</body>
 </html>

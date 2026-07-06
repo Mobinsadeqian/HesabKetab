@@ -1,7 +1,66 @@
-<html>
-    <h1>show expenses</h1>
-    {% for expense in expenses %}
-    {{expense.title}}
-    {% endfor %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌کتاب | لیست هزینه‌های ساختمان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-4 md:p-8">
 
+    <div class="max-w-2xl mx-auto space-y-6">
+        
+        <div class="flex items-center justify-between bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3">
+                <span class="p-2.5 bg-blue-50 text-blue-600 rounded-xl text-xl">📋</span>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-800">لیست هزینه‌های ثبت شده</h1>
+                    <p class="text-xs text-slate-400 mt-0.5">مشاهده تمام مخارج و تراکنش‌های ساختمان</p>
+                </div>
+            </div>
+            
+            <a href="javascript:history.back()" class="text-slate-500 hover:text-slate-700 transition duration-150 flex items-center gap-1 text-xs font-medium bg-slate-50 hover:bg-slate-100 px-3 py-2 rounded-xl border border-slate-200/60">
+                <span>بازگشت</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="space-y-3">
+            {% for expense in expenses %}
+                <div class="bg-white border border-slate-200/80 rounded-2xl p-4 shadow-sm flex items-center justify-between hover:border-blue-300 hover:shadow-md hover:shadow-blue-500/5 transition duration-200 group">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center text-sm group-hover:bg-blue-50 group-hover:text-blue-600 transition duration-150">
+                            💸
+                        </span>
+                        <span class="text-sm font-bold text-slate-700">{{ expense.title }}</span>
+                    </div>
+                    
+                    {% if expense.total_amount %}
+                        <span class="text-sm font-mono font-bold text-slate-800 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100">
+                            {{ expense.total_amount }} <span class="text-[10px] font-normal text-slate-400 mr-0.5">تومان</span>
+                        </span>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <div class="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-slate-200 p-6 shadow-sm">
+                    <span class="text-4xl block mb-3">🍃</span>
+                    <h3 class="text-sm font-bold text-slate-700">هیچ هزینه‌ای یافت نشد</h3>
+                    <p class="text-xs text-slate-400 mt-2 max-w-xs mx-auto leading-relaxed">
+                        هنوز هیچ فاکتور یا هزینه‌ای در سامانه این ساختمان ثبت نشده است.
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</body>
 </html>

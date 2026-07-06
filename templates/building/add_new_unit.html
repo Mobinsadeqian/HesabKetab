@@ -1,16 +1,93 @@
-<html>
-    <h1>اضافه کردن واحد جدید</h1>
-    <form method="post" action="">
-        {% csrf_token %}
-        نام مالک
-        <input type="text" name="unit_name">
-        <br><br>
-        شماره واحد
-        <input type="number" name="unit_number">
-        <br><br>
-        شماره تلفن مالک
-        <input type="text" name="unit_phone_number">
-        <br><br><br>
-        <input type="submit" value="تایید">
-    </form>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌کتاب | اضافه کردن واحد جدید</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8 relative">
+        
+        <a href="{% url 'manager_dashboard' %}" class="absolute top-6 left-6 text-slate-400 hover:text-slate-600 transition duration-150 flex items-center gap-1 text-xs font-medium bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-lg">
+            <span>بازگشت</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </a>
+
+        <div class="mb-8">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="p-2 bg-blue-50 text-blue-600 rounded-lg text-lg">➕</span>
+                <h1 class="text-xl font-bold text-slate-800">اضافه کردن واحد جدید</h1>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+                مشخصات واحد مسکونی یا تجاری جدید را وارد کنید. این اطلاعات برای تقسیم هزینه‌ها و صدور فاکتور استفاده خواهد شد.
+            </p>
+        </div>
+
+        <form method="POST" action="" class="space-y-5">
+            {% csrf_token %}
+            
+            <div>
+                <label for="unit_name" class="block text-sm font-medium text-slate-700 mb-2">نام و نام خانوادگی مالک / ساکن</label>
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="unit_name" 
+                        name="unit_name" 
+                        placeholder="مثال: محمد احمدی" 
+                        required
+                        class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150"
+                    >
+                </div>
+            </div>
+
+            <div>
+                <label for="unit_number" class="block text-sm font-medium text-slate-700 mb-2">شماره واحد</label>
+                <input 
+                    type="number" 
+                    id="unit_number" 
+                    name="unit_number" 
+                    placeholder="مثال: 12" 
+                    min="1"
+                    required
+                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150"
+                >
+            </div>
+
+            <div>
+                <label for="unit_phone_number" class="block text-sm font-medium text-slate-700 mb-2">شماره تلفن همراه</label>
+                <input 
+                    type="tel" 
+                    id="unit_phone_number" 
+                    name="unit_phone_number" 
+                    placeholder="مثال: 09141234567" 
+                    required
+                    pattern="09[0-9]{9}"
+                    title="شماره تلفن باید با 09 شروع شده و ۱۱ رقم باشد"
+                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm text-left font-mono tracking-wider focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150"
+                >
+                <p class="text-[10px] text-slate-400 mt-1">جهت ارسال پیامک‌های فاکتور و اطلاع‌رسانی‌ها</p>
+            </div>
+
+            <div class="pt-2">
+                <button 
+                    type="submit" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-lg shadow-blue-600/10 flex items-center justify-center gap-2"
+                >
+                    <span>تایید و ثبت واحد</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+</body>
 </html>

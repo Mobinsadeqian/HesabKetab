@@ -1,17 +1,78 @@
-<html>
-    <p>واحد {{ unit.unit_name }}</p>
-    <form method="post" action="">
-        {% csrf_token %}
-        نام مالک
-        <input type="text" name="unit_name" placeholder="{{unit.unit_name}}" value="{{unit.unit_name}}">
-        <br><br>
-        شماره تلفن مالک
-        <input type="text" name="unit_phonenumber" placeholder="{{unit.phone_number}}" value="{{unit.phone_number}}">
-        <br><br>
-        شماره واحد
-        <input type="number" name="unit_number" placeholder="{{unit.unit_number}}" value="{{unit.unit_number}}">
-        <br><br><br>
-        <input type="submit" value="تایید">
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌کتاب | ویرایش اطلاعات واحد</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen flex items-center justify-center p-4">
 
-    </form>
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-slate-200/50">
+        
+        <div class="bg-slate-950 p-6 text-white relative">
+            <div class="flex items-center gap-3">
+                <span class="p-2.5 bg-blue-600 rounded-xl text-xl shadow-lg shadow-blue-600/20">📝</span>
+                <div>
+                    <h1 class="text-base font-bold">ویرایش اطلاعات واحد</h1>
+                    <p class="text-xs text-slate-400 mt-1">در حال ویرایش: <span class="text-blue-400 font-medium">واحد {{ unit.unit_number }} ({{ unit.unit_name }})</span></p>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" action="" class="p-6 space-y-5">
+            {% csrf_token %}
+            
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-700 block">نام مالک / ساکن</label>
+                <div class="relative">
+                    <input type="text" 
+                           name="unit_name" 
+                           placeholder="{{ unit.unit_name }}" 
+                           value="{{ unit.unit_name }}"
+                           class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 font-medium">
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-700 block">شماره تلفن همراه</label>
+                <input type="text" 
+                       name="unit_phonenumber" 
+                       placeholder="{{ unit.phone_number }}" 
+                       value="{{ unit.phone_number }}"
+                       class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 font-mono text-left"
+                       dir="ltr">
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-700 block">شماره واحد</label>
+                <input type="number" 
+                       name="unit_number" 
+                       placeholder="{{ unit.unit_number }}" 
+                       value="{{ unit.unit_number }}"
+                       class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 font-mono">
+            </div>
+
+            <div class="pt-2 flex flex-col gap-2">
+                <button type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-3 px-4 rounded-xl shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 transition duration-150 cursor-pointer">
+                    تایید و ثبت تغییرات
+                </button>
+                
+                <a href="javascript:history.back()" 
+                   class="w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium py-2.5 px-4 rounded-xl transition duration-150">
+                    انصراف و بازگشت
+                </a>
+            </div>
+
+        </form>
+    </div>
+
+</body>
 </html>

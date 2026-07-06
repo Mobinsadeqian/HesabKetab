@@ -85,7 +85,7 @@ def building_page(request):
         build_id = request.GET.get('build_id')
         build = get_object_or_404(BuildManager, build_id=build_id)
         units = build.units.all()
-        expenses = build.expenses.all()
+        expenses = build.expenses.all().order_by('-id')
 
         context = {
             'build_id' : build_id,

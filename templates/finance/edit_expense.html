@@ -1,14 +1,89 @@
-<html>
-    <h1>ویرایش هزینه</h1>
-    {{ expense.title }}
-    <form method="post" action="">
-        {% csrf_token %}
-        عنوان
-        <input type="text" name="expense_title" placeholder="{{ expense.title }}" value="{{ expense.title }}">
-        <br><br>
-         مبلغ پرداختی کل
-         <input type="text" name="expense_amount" placeholder="{{ expense.total_amount }}" value="{{ expense.total_amount }}">
-         <br><br><br>
-         <input type="submit" value="تایید">
-    </form>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌کتاب | ویرایش هزینه</title>
+    <!-- استفاده از Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <!-- کانتینر کارت ویرایش هزینه -->
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+        
+        <!-- هدر کارت ویرایش -->
+        <div class="bg-slate-950 p-6 text-white flex items-center gap-3">
+            <span class="p-2.5 bg-blue-600 rounded-xl text-xl shadow-lg shadow-blue-600/20">📝</span>
+            <div>
+                <h1 class="text-base font-bold">ویرایش هزینه ساختمان</h1>
+                <p class="text-xs text-slate-400 mt-1">در حال ویرایش: <span class="text-blue-400 font-medium">{{ expense.title }}</span></p>
+            </div>
+        </div>
+
+        <!-- فرم اصلی -->
+        <form method="post" action="" class="p-6 space-y-5">
+            {% csrf_token %}
+            
+            <!-- فیلد عنوان هزینه -->
+            <div class="space-y-1.5">
+                <label for="expense_title" class="text-xs font-bold text-slate-700 block">عنوان هزینه</label>
+                <input 
+                    type="text" 
+                    id="expense_title"
+                    name="expense_title" 
+                    placeholder="{{ expense.title }}" 
+                    value="{{ expense.title }}"
+                    required
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 font-medium"
+                >
+            </div>
+
+            <!-- فیلد مبلغ کل پرداختی -->
+            <div class="space-y-1.5">
+                <label for="expense_amount" class="text-xs font-bold text-slate-700 block">مبلغ پرداختی کل (تومان)</label>
+                <div class="relative flex items-center">
+                    <input 
+                        type="number" 
+                        id="expense_amount"
+                        name="expense_amount" 
+                        placeholder="{{ expense.total_amount }}" 
+                        value="{{ expense.total_amount }}"
+                        min="0"
+                        required
+                        class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 font-mono text-left"
+                        dir="ltr"
+                    >
+                    <!-- برچسب تومان ثابت درون فیلد -->
+                    <span class="absolute left-4 text-xs text-slate-400 font-medium pointer-events-none">تومان</span>
+                </div>
+            </div>
+
+            <!-- دکمه‌های ثبت و انصراف -->
+            <div class="pt-2 flex flex-col gap-2">
+                <button 
+                    type="submit" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 transition duration-150 cursor-pointer text-center"
+                >
+                    تایید و به‌روزرسانی هزینه
+                </button>
+                
+                <a 
+                    href="javascript:history.back()" 
+                    class="w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium py-2.5 px-4 rounded-xl transition duration-150"
+                >
+                    انصراف و بازگشت
+                </a>
+            </div>
+
+        </form>
+    </div>
+
+</body>
 </html>

@@ -1,13 +1,79 @@
-<html>
-    <h1>اضافه کردن هزینه</h1>
-    <form method="post" action="">
-        {% csrf_token %}
-        عنوان هزینه
-        <input type="text" name="title_expnese">
-        <br><br>
-        مبلغ پرداختی کل
-        <input type="text" name="amount_expnese">
-        <br><br><br>
-        <input type="submit" value="تایید">
-    </form>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌کتاب | ثبت هزینه جدید ساختمان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+        
+        <div class="bg-slate-950 p-6 text-white flex items-center gap-3">
+            <span class="p-2.5 bg-blue-600 rounded-xl text-xl shadow-lg shadow-blue-600/20">💸</span>
+            <div>
+                <h1 class="text-base font-bold">ثبت هزینه جدید ساختمان</h1>
+                <p class="text-xs text-slate-400 mt-1">مبلغ وارد شده به صورت خودکار بین تمام واحدها تقسیم خواهد شد</p>
+            </div>
+        </div>
+
+        <form method="post" action="" class="p-6 space-y-5">
+            {% csrf_token %}
+            
+            <div class="space-y-1.5">
+                <label for="title_expnese" class="text-xs font-bold text-slate-700 block">عنوان هزینه</label>
+                <input 
+                    type="text" 
+                    id="title_expnese"
+                    name="title_expnese" 
+                    placeholder="مثال: قبض گاز مشاعات، تعمیر آسانسور" 
+                    required
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 font-medium"
+                >
+            </div>
+
+            <div class="space-y-1.5">
+                <label for="amount_expnese" class="text-xs font-bold text-slate-700 block">مبلغ پرداختی کل (تومان)</label>
+                <div class="relative flex items-center">
+                    <input 
+                        type="number" 
+                        id="amount_expnese"
+                        name="amount_expnese" 
+                        placeholder="مثال: 500000" 
+                        min="0"
+                        required
+                        class="w-full bg-slate-50 border border-slate-200 text-slate-800 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition duration-150 font-mono text-left"
+                        dir="ltr"
+                    >
+                    <span class="absolute left-4 text-xs text-slate-400 font-medium pointer-events-none">تومان</span>
+                </div>
+            </div>
+
+            <div class="pt-2 flex flex-col gap-2">
+                <button 
+                    type="submit" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 transition duration-150 cursor-pointer text-center"
+                >
+                    تایید و صدور فاکتور واحدها
+                </button>
+                
+                <a 
+                    href="javascript:history.back()" 
+                    class="w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-medium py-2.5 px-4 rounded-xl transition duration-150"
+                >
+                    انصراف و بازگشت
+                </a>
+            </div>
+
+        </form>
+    </div>
+
+</body>
 </html>

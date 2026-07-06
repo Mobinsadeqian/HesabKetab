@@ -1,15 +1,86 @@
-<html lang="fa">
-    <h1>حساب‌کتاب</h1>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌کتاب | سامانه هوشمند مدیریت مالی ساختمان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
 
-    <a href="{% url 'login_manager' %}"><button>ورود</button></a>
-    <a href="{% url 'signup_manager' %}"><button>ثبت‌نام</button></a>
-    <br><br><br>
-    <form method="get" action="{% url 'building_page' %}">
-        {% csrf_token %}
-        <h2> کد ساختمان را وارد کنید</h2>
-        <p>توجه داشته باشید که این کد را باید از مدیر ساختمان تحویل بگیرید</p>
-        <input type="text" name="build_id">
-        <br><br>
-        <input type="submit" value="بررسی">
-    </form>
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row border border-slate-100">
+        
+        <div class="w-full md:w-1/2 bg-slate-900 p-8 flex flex-col justify-between text-white">
+            <div>
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="p-2 bg-blue-600 rounded-lg text-xl font-bold">🏢</span>
+                    <h1 class="text-2xl font-bold tracking-tight">حساب‌کتاب</h1>
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed mt-4">
+                    سامانه هوشمند مدیریت هزینه‌ها، تقسیم عادلانه شارژ و صدور فاکتور آنلاین برای مجتمع‌های مسکونی و تجاری.
+                </p>
+            </div>
+
+            <div class="mt-12 md:mt-0">
+                <h3 class="text-sm font-semibold text-slate-400 mb-4">پنل مدیریت ساختمان</h3>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="{% url 'login_manager' %}" class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-xl transition duration-200 shadow-lg shadow-blue-600/20">
+                        ورود مدیران
+                    </a>
+                    <a href="{% url 'signup_manager' %}" class="flex-1 text-center bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium py-2.5 px-4 rounded-xl border border-slate-700 transition duration-200">
+                        ثبت‌نام مدیر جدید
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/2 p-8 flex flex-col justify-center bg-white">
+            <div class="mb-6">
+                <span class="text-xs font-bold text-blue-600 uppercase tracking-wide bg-blue-50 px-2.5 py-1 rounded-full">ویژه ساکنین</span>
+                <h2 class="text-xl font-bold text-slate-800 mt-3">ورود سریع به ساختمان</h2>
+                <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                    توجه داشته باشید که این کد یکتای چند رقمی را باید قبلاً از مدیر ساختمان خود تحویل گرفته باشید.
+                </p>
+            </div>
+
+            <form method="get" action="{% url 'building_page' %}" class="space-y-4">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="build_id" class="block text-sm font-medium text-slate-600 mb-2">کد منحصربه‌فرد ساختمان</label>
+                    <input 
+                        type="text" 
+                        id="build_id" 
+                        name="build_id" 
+                        placeholder="مثال: 4892A7" 
+                        required
+                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-left font-mono text-lg tracking-widest text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition duration-150"
+                    >
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2"
+                >
+                    <span>بررسی و ورود به ساختمان</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+    <div class="mt-6 text-center text-xs text-slate-400">
+        &copy; ۲۰۲۶ سامانه مدیریت ساختمان حساب‌کتاب. شفافیت مالی در چند کلیک.
+    </div>
+
+</body>
 </html>

@@ -1,14 +1,121 @@
-{% for factor in factors %}
-{{factor.expense}} <a><button>حذف</button></a> <a href="{% url 'submit_payment' factor.factor_id %}"><button>تایید پرداخت</button></a>
-<br><br>
-{{factor.amount}}
-<br><br>
-{{factor.status}}
-<br><br>
-{% if factor.factor_image %}
-        <br>
-        <p style="color: green;">رسید آپلود شده است:</p>
-        <a href="{{ factor.factor_image.url }}" target="_blank">مشاهده رسید پرداختی</a>
-    {% endif %}
-<br><br><br>
-{% endfor %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌کتاب | مدیریت فاکتورهای واحد</title>
+    <!-- استفاده از Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-4 md:p-8">
+
+    <div class="max-w-3xl mx-auto space-y-6">
+        
+        <!-- هدر صفحه -->
+        <div class="flex items-center justify-between bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3">
+                <span class="p-2.5 bg-blue-50 text-blue-600 rounded-xl text-xl">🧾</span>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-800">فاکتورها و وضعیت پرداخت واحد</h1>
+                    <p class="text-xs text-slate-400 mt-0.5">بررسی رسیدها و تایید تسویه‌حساب فاکتورهای صادر شده</p>
+                </div>
+            </div>
+            
+            <a href="javascript:history.back()" class="text-slate-500 hover:text-slate-700 transition duration-150 flex items-center gap-1 text-xs font-medium bg-slate-50 hover:bg-slate-100 px-3 py-2 rounded-xl border border-slate-200/60">
+                <span>بازگشت به داشبورد</span>
+            </a>
+        </div>
+
+        <!-- لیست فاکتورها -->
+        <div class="space-y-4">
+            {% for factor in factors %}
+                
+                <!-- 🎨 بررسی وضعیت بر اساس مقدار ذخیره شده در دیتابیس (برگرفته از مدل تصویر image_a87403.png) -->
+                {% if factor.status == 'paid' %}
+                    <!-- استایل کارت پرداخت شده (سبز ملایم) -->
+                    <div class="bg-emerald-50/40 border border-emerald-200/80 rounded-2xl shadow-sm p-5 flex flex-col justify-between gap-4 transition duration-200">
+                {% else %}
+                    <!-- استایل کارت پرداخت نشده (قرمز/نارنجی ملایم برای جلب توجه مدیر) -->
+                    <div class="bg-rose-50/30 border border-rose-200/60 rounded-2xl shadow-sm p-5 flex flex-col justify-between gap-4 transition duration-200">
+                {% endif %}
+                    
+                    <!-- بخش بالایی کارت: عنوان فاکتور و وضعیت پرداخت رنگی -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200/40">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full {% if factor.status == 'paid' %}bg-emerald-500{% else %}bg-rose-500{% endif %}"></span>
+                            <h3 class="text-sm font-bold text-slate-800">{{ factor.expense.title }}</h3>
+                        </div>
+                        
+                        <!-- نمایش متن فارسی وضعیت با استفاده از get_status_display -->
+                        <div>
+                            {% if factor.status == 'paid' %}
+                                <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold border border-emerald-200 flex items-center gap-1">
+                                    ✓ {{ factor.get_status_display }}
+                                </span>
+                            {% else %}
+                                <span class="bg-rose-100 text-rose-800 px-3 py-1 rounded-full text-xs font-bold border border-rose-200 flex items-center gap-1">
+                                    ✕ {{ factor.get_status_display }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- بخش میانی: مبلغ سهم واحد -->
+                    <div class="flex items-center justify-between bg-white/80 p-3.5 rounded-xl border border-slate-200/40 shadow-inner">
+                        <span class="text-xs font-bold text-slate-500">سهم این واحد از هزینه:</span>
+                        <span class="text-sm font-mono font-bold text-slate-800">
+                            {{ factor.amount }} <span class="text-[10px] font-normal text-slate-400 mr-0.5">تومان</span>
+                        </span>
+                    </div>
+
+                    <!-- نمایش بخش رسید صادر شده در صورت وجود فاکتور تصویری (بر اساس فیلد factor_image در مدل) -->
+                    {% if factor.factor_image %}
+                        <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="text-base">📸</span>
+                                <span class="text-xs font-medium text-blue-800">رسید تراکنش توسط ساکن آپلود شده است.</span>
+                            </div>
+                            <a href="{{ factor.factor_image.url }}" target="_blank" class="text-xs font-bold text-blue-700 hover:text-blue-800 underline underline-offset-4 transition duration-150">
+                                مشاهده رسید پرداختی ↗
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    <!-- دکمه‌های عملیاتی فاکتور -->
+                    <div class="flex items-center justify-end gap-2 pt-1">
+                        
+                        <!-- 🛑 اگر پرداخت نشده بود، دکمه تایید پرداخت را نشان بده -->
+                        {% if factor.status == 'unpaid' %}
+                            <a href="{% url 'submit_payment' factor.factor_id %}" class="bg-slate-950 hover:bg-slate-800 text-white text-xs font-bold py-2 px-4 rounded-xl transition duration-150 shadow-sm text-center">
+                                تایید پرداخت و تسویه
+                            </a>
+                        {% endif %}
+                        
+                        <!-- دکمه حذف فاکتور -->
+                        <a href="#" onclick="return confirm('آیا از حذف این فاکتور مطمئن هستید؟');" class="bg-white/80 hover:bg-rose-600 text-rose-600 hover:text-white border border-slate-200 hover:border-rose-600 text-xs font-medium py-2 px-4 rounded-xl transition duration-150 text-center">
+                            حذف فاکتور
+                        </a>
+                    </div>
+
+                </div>
+            {% empty %}
+                <div class="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-slate-200 p-6 shadow-sm">
+                    <span class="text-4xl block mb-3">🍃</span>
+                    <h3 class="text-sm font-bold text-slate-700">هیچ فاکتوری صادر نشده است</h3>
+                    <p class="text-xs text-slate-400 mt-2 max-w-xs mx-auto leading-relaxed">
+                        هنوز هیچ هزینه یا فاکتوری برای این واحد در سیستم ثبت یا صادر نشده است.
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</body>
+</html>

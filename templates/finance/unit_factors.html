@@ -1,19 +1,133 @@
-{% for factor in factors %}
-    <p>هزینه: {{ factor.expense.title }}</p>
-    <p>مبلغ: {{ factor.amount }}</p>
-    <p>وضعیت: {{ factor.status }}</p>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌کتاب | فاکتورها و آپلود رسید پرداخت</title>
+    <!-- استفاده از Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-4 md:p-8">
 
-    <form method="POST" action="{% url 'upload_receipt' factor.factor_id %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="receipt_file" accept="image/*" required>
-        <button type="submit">تایید رسید</button>
-    </form>
+    <div class="max-w-2xl mx-auto space-y-6">
+        
+        <!-- هدر پنل ساکن ساختمان -->
+        <div class="flex items-center justify-between bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3">
+                <span class="p-2.5 bg-blue-50 text-blue-600 rounded-xl text-xl">💳</span>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-800">فاکتورهای واحد شما</h1>
+                    <p class="text-xs text-slate-400 mt-0.5">مشاهده بدهی‌ها، تسویه‌حساب‌ها و ارسال رسید بانکی</p>
+                </div>
+            </div>
+        </div>
 
-    {% if factor.factor_image %}
-        <br>
-        <p style="color: green;">رسید آپلود شده است:</p>
-        <a href="{{ factor.factor_image.url }}" target="_blank">مشاهده رسید فعلی</a>
-    {% endif %}
-    
-    <hr>
-{% endfor %}
+        <!-- لیست فاکتورها -->
+        <div class="space-y-4">
+            {% for factor in factors %}
+                
+                <!-- تعیین پس‌زمینه بر اساس وضعیت پرداخت مدل دیتابیس ( paid یا unpaid ) -->
+                {% if factor.status == 'paid' %}
+                    <div class="bg-emerald-50/40 border border-emerald-200/80 rounded-2xl shadow-sm p-5 space-y-4 transition duration-200">
+                {% else %}
+                    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 space-y-4 transition duration-200">
+                {% endif %}
+                    
+                    <!-- بخش اول: عنوان و وضعیت فاکتور -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full {% if factor.status == 'paid' %}bg-emerald-500{% else %}bg-amber-500{% endif %}"></span>
+                            <h3 class="text-sm font-bold text-slate-800">هزینه: {{ factor.expense.title }}</h3>
+                        </div>
+                        
+                        <!-- برچسب وضعیت با متد get_status_display -->
+                        <div>
+                            {% if factor.status == 'paid' %}
+                                <span class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold border border-emerald-200 flex items-center gap-1">
+                                    ✓ {{ factor.get_status_display }}
+                                </span>
+                            {% else %}
+                                <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-bold border border-amber-200 flex items-center gap-1">
+                                    ⏳ {{ factor.get_status_display }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- بخش دوم: مبلغ سهم واحد -->
+                    <div class="flex items-center justify-between bg-slate-50 p-3.5 rounded-xl border border-slate-200/40">
+                        <span class="text-xs font-bold text-slate-500">مبلغ قابل پرداخت:</span>
+                        <span class="text-sm font-mono font-bold text-slate-800">
+                            {{ factor.amount }} <span class="text-[10px] font-normal text-slate-400 mr-0.5">تومان</span>
+                        </span>
+                    </div>
+
+                    <!-- بخش سوم: اگر رسید قبلاً آپلود شده باشد، وضعیت را نشان بده -->
+                    {% if factor.factor_image %}
+                        <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-sm">اطلاعیه:</span>
+                                <span class="text-xs font-medium text-blue-800">رسید پرداخت شما قبلاً آپلود شده و در دست بررسی است.</span>
+                            </div>
+                            <a href="{{ factor.factor_image.url }}" target="_blank" class="text-xs font-bold text-blue-700 hover:text-blue-800 underline underline-offset-4 transition duration-150">
+                                مشاهده رسید ارسال‌شده ↗
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    <!-- بخش چهارم: فرم آپلود فایل (فقط برای فاکتورهای پرداخت نشده نمایش داده می‌شود) -->
+                    {% if factor.status == 'unpaid' %}
+                        <form method="POST" action="{% url 'upload_receipt' factor.factor_id %}" enctype="multipart/form-data" class="space-y-3 pt-2">
+                            {% csrf_token %}
+                            
+                            <label class="block text-xs font-bold text-slate-700">ارسال یا تغییر رسید واریز:</label>
+                            
+                            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                                <!-- باکس زیباسازی فیلد فایل عکس -->
+                                <div class="relative flex-1 group">
+                                    <input 
+                                        type="file" 
+                                        name="receipt_file" 
+                                        accept="image/*" 
+                                        required
+                                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                        onchange="document.getElementById('file-chosen-{{ factor.factor_id }}').textContent = this.files[0].name"
+                                    >
+                                    <div class="bg-slate-50 border-2 border-dashed border-slate-200 group-hover:border-blue-400 text-slate-500 rounded-xl px-4 py-2.5 text-center text-xs font-medium transition duration-150 flex items-center justify-center gap-2">
+                                        📁 <span id="file-chosen-{{ factor.factor_id }}">انتخاب تصویر رسید بانکی</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- دکمه ثبت فرم -->
+                                <button 
+                                    type="submit" 
+                                    class="bg-slate-950 hover:bg-slate-800 text-white text-xs font-bold py-3 px-5 rounded-xl transition duration-150 shadow-sm cursor-pointer text-center"
+                                >
+                                    ارسال رسید
+                                </button>
+                            </div>
+                        </form>
+                    {% endif %}
+
+                </div>
+            {% empty %}
+                <div class="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-slate-200 p-6 shadow-sm">
+                    <span class="text-4xl block mb-3">🍃</span>
+                    <h3 class="text-sm font-bold text-slate-700">هیچ فاکتوری یافت نشد</h3>
+                    <p class="text-xs text-slate-400 mt-2 max-w-xs mx-auto leading-relaxed">
+                        در حال حاضر هیچ صورت‌حساب یا فاکتوری برای واحد شما صادر نشده است.
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</body>
+</html>
