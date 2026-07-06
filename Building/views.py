@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 import random
+from django.contrib import messages
 
 def register_new_manager(request):
     if request.method == "POST":
@@ -94,3 +95,29 @@ def building_page(request):
             'expenses': expenses
         }
         return render(request, 'building/building_page.html',context)
+    
+
+def edit_manager_info(request, manager_id):
+    manager = get_object_or_404(BuildManager, manager_id=manager_id)
+    context = {
+        'manager' : manager
+    }
+    return render(request, 'building/edit_manager_info.html', context)
+
+def update_manager_info(request, manager_id):
+    manager = get_object_or_404(BuildManager, manager_id=manager_id)
+    if request.method == "POST":
+        manager.first_name = request.POST.get('manager_first_name')
+        manager.last_name = request.POST.get('manager_last_name')
+        manager.username = request.POST.get('manager_username')
+        manager.phone_number = request.POST.get('manager_phone_number')
+        manager.card_number = request.POST.get('manager_card_number')
+
+        new_password = request.POST.get('manager_password')
+        if new_password and new_password.strip() != "":
+            manager.set_password(new_password)
+        manager.save()
+        messages.success(request, "اطلاعات مدیریتی شما با موفقیت بروزرسانی شد.")
+        return redirect('manager_dashboard')
+    context = {'manager': manager}
+    return render(request, 'building/edit_manager_info.html', context)

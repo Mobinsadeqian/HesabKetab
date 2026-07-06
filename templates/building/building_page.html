@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" class="text-[18px]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,49 +12,71 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-4 md:p-8">
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-4 md:p-8 text-slate-800">
 
     <div class="max-w-5xl mx-auto space-y-6">
         
-        <div class="bg-slate-950 text-white rounded-2xl p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-slate-800">
-            <div class="flex items-center gap-4">
-                <span class="p-3 bg-blue-600 rounded-xl text-2xl shadow-lg shadow-blue-600/30">🏢</span>
-                <div>
-                    <h1 class="text-xl font-bold flex items-center gap-2">
-                        <span>مدیریت ساختمان:</span>
-                        <span class="text-blue-400 font-medium">{{ build.first_name }} {{ build.last_name }}</span>
-                    </h1>
-                    <p class="text-xs text-slate-400 mt-1">به سامانه شفافیت مالی مجتمع خوش آمدید</p>
+        <div class="bg-slate-950 text-white rounded-2xl shadow-xl border border-slate-800 overflow-hidden">
+            
+            <div class="p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-800/60">
+                <div class="flex items-center gap-4">
+                    <span class="p-3.5 bg-blue-600 rounded-xl text-3xl shadow-lg shadow-blue-600/30">🏢</span>
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-bold flex flex-wrap items-center gap-2">
+                            <span>مدیریت ساختمان:</span>
+                            <span class="text-blue-400 font-semibold">{{ build.first_name }} {{ build.last_name }}</span>
+                        </h1>
+                        <p class="text-sm text-slate-400 mt-1.5">به سامانه شفافیت مالی مجتمع خوش آمدید</p>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-900 border border-slate-800 px-5 py-3 rounded-xl flex items-center justify-between md:justify-end gap-4 self-start md:self-auto">
+                    <span class="text-sm text-slate-400">کد منحصربه‌فرد ساختمان:</span>
+                    <span class="font-mono text-lg md:text-xl font-bold tracking-widest text-blue-400 bg-slate-950 px-4 py-1.5 rounded-lg border border-slate-800 shadow-inner">
+                        {{ build_id }}
+                    </span>
                 </div>
             </div>
-            
-            <div class="bg-slate-900 border border-slate-800 px-4 py-3 rounded-xl flex items-center justify-between md:justify-end gap-4">
-                <span class="text-xs text-slate-400">کد منحصربه‌فرد ساختمان:</span>
-                <span class="font-mono text-lg font-bold tracking-widest text-blue-400 bg-slate-950 px-3 py-1 rounded-lg border border-slate-800">
-                    {{ build_id }}
-                </span>
+
+            <div class="bg-slate-900/40 px-6 py-5 md:px-8 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm md:text-base">
+                <div class="flex items-center gap-4 bg-slate-900/60 border border-slate-800/80 rounded-xl p-4">
+                    <span class="w-10 h-10 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-lg shadow-sm">📞</span>
+                    <div class="space-y-1">
+                        <span class="text-slate-400 text-xs block font-medium">شماره تلفن مدیر:</span>
+                        <span class="font-mono text-slate-100 font-bold tracking-wider text-base" dir="ltr">{{ build.phone_number }}</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 bg-slate-900/60 border border-slate-800/80 rounded-xl p-4">
+                    <span class="w-10 h-10 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center text-lg shadow-sm">💳</span>
+                    <div class="space-y-1">
+                        <span class="text-slate-400 text-xs block font-medium">شماره کارت واریز شارژ:</span>
+                        <span class="font-mono text-slate-100 font-bold tracking-widest text-base md:text-lg" dir="ltr">{{ build.card_number }}</span>
+                    </div>
+                </div>
             </div>
+
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             <div class="lg:col-span-1 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col">
-                <div class="flex items-center gap-2 mb-4 pb-2 border-b border-slate-100">
-                    <span class="text-lg">📊</span>
-                    <h2 class="font-bold text-slate-800 text-base">آخرین هزینه‌های مشترک</h2>
+                <div class="flex items-center gap-2 mb-5 pb-2.5 border-b border-slate-100">
+                    <span class="text-xl">📊</span>
+                    <h2 class="font-bold text-slate-800 text-lg">آخرین هزینه‌های مشترک</h2>
                 </div>
                 
-                <div class="space-y-3 overflow-y-auto max-h-[450px] pr-1">
+                <div class="space-y-3 overflow-y-auto max-h-[480px] pr-1">
                     {% for expense in expenses %}
-                        <div class="bg-slate-50 border border-slate-150 rounded-xl p-3 flex flex-col justify-between hover:bg-slate-100/70 transition duration-150">
-                            <span class="text-sm font-semibold text-slate-700 mb-2">{{ expense.title }}</span>
+                        <div class="bg-slate-50 border border-slate-200/60 rounded-xl p-4 flex flex-col justify-between hover:bg-slate-100/70 transition duration-150">
+                            <span class="text-base font-bold text-slate-700 mb-3">{{ expense.title }}</span>
                             <div class="flex items-center justify-between">
-                                <span class="text-[11px] text-slate-400">مبلغ کل فاکتور:</span>
-                                <span class="text-sm font-bold text-slate-800 font-mono">{{ expense.total_amount }} <span class="text-[10px] font-normal text-slate-500 mr-0.5">تومان</span></span>
+                                <span class="text-xs font-medium text-slate-400">مبلغ کل فاکتور:</span>
+                                <span class="text-base font-bold text-slate-800 font-mono">{{ expense.total_amount }} <span class="text-xs font-normal text-slate-500 mr-0.5">تومان</span></span>
                             </div>
                         </div>
                     {% empty %}
-                        <div class="text-center py-8 text-xs text-slate-400 bg-slate-50 rounded-xl border border-dashed">
+                        <div class="text-center py-10 text-sm text-slate-400 bg-slate-50 rounded-xl border border-dashed">
                             هنوز هیچ هزینه‌ای ثبت نشده است.
                         </div>
                     {% endfor %}
@@ -62,35 +84,35 @@
             </div>
 
             <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                <div class="flex items-center gap-2 mb-6 pb-2 border-b border-slate-100">
-                    <span class="text-lg">👥</span>
-                    <h2 class="font-bold text-slate-800 text-base">لیست واحدها و وضعیت فاکتورها</h2>
+                <div class="flex items-center gap-2 mb-5 pb-2.5 border-b border-slate-100">
+                    <span class="text-xl">👥</span>
+                    <h2 class="font-bold text-slate-800 text-lg">لیست واحدها و وضعیت فاکتورها</h2>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {% for unit in units %}
-                        <div class="border border-slate-200 hover:border-blue-300 rounded-xl p-4 flex flex-col justify-between bg-white hover:shadow-md hover:shadow-blue-500/5 transition duration-200">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <span class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold font-mono text-sm">
+                        <div class="border border-slate-200 hover:border-blue-300 rounded-xl p-5 flex flex-col justify-between bg-white hover:shadow-md hover:shadow-blue-500/5 transition duration-200">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-4">
+                                    <span class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold font-mono text-base shadow-inner">
                                         {{ unit.unit_number }}
                                     </span>
                                     <div>
-                                        <h3 class="text-sm font-bold text-slate-800">واحد {{ unit.unit_number }}</h3>
-                                        <p class="text-xs text-slate-500 mt-0.5">ساکن: {{ unit.unit_name }}</p>
+                                        <h3 class="text-base font-bold text-slate-800">واحد {{ unit.unit_number }}</h3>
+                                        <p class="text-sm text-slate-500 mt-0.5">ساکن: {{ unit.unit_name }}</p>
                                     </div>
                                 </div>
                             </div>
                             
-                            <a href="{% url 'unit_factors' unit.unit_id %}" class="w-full text-center bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium py-2.5 px-4 rounded-xl transition duration-150 flex items-center justify-center gap-1.5">
+                            <a href="{% url 'unit_factors' unit.unit_id %}" class="w-full text-center bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold py-3 px-4 rounded-xl transition duration-150 flex items-center justify-center gap-2">
                                 <span>مشاهده صورت‌حساب و پرداخت</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
                             </a>
                         </div>
                     {% empty %}
-                        <div class="col-span-2 text-center py-12 text-xs text-slate-400 bg-slate-50 rounded-xl border border-dashed">
+                        <div class="col-span-2 text-center py-14 text-sm text-slate-400 bg-slate-50 rounded-xl border border-dashed">
                             هیچ واحدی برای این ساختمان ثبت نشده است.
                         </div>
                     {% endfor %}

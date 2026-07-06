@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" class="text-[18px]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-4 md:p-8">
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-4 md:p-8 text-slate-800">
 
     <div class="max-w-6xl mx-auto space-y-8">
         
@@ -25,13 +25,18 @@
                 </div>
             </div>
             
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <div class="bg-slate-900 border border-slate-800 px-4 py-2.5 rounded-xl flex items-center justify-between gap-3">
                     <span class="text-xs text-slate-400">کد ساختمان:</span>
                     <span class="font-mono text-base font-bold tracking-widest text-blue-400 bg-slate-950 px-2.5 py-0.5 rounded-lg border border-slate-800">
                         {{ user.build_id }}
                     </span>
                 </div>
+                
+                <a href="{% url 'edit_manager_info' user.manager_id %}" class="text-center bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-bold py-2.5 px-4 rounded-xl transition duration-150">
+                    🔧 تنظیمات پروفایل
+                </a>
+
                 <a href="/buildingmanager/logout/" class="text-center bg-rose-600/10 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/20 text-xs font-bold py-2.5 px-4 rounded-xl transition duration-150">
                     خروج از سیستم
                 </a>
@@ -61,7 +66,7 @@
                             <div class="flex items-center justify-end gap-2 border-t border-slate-200/40 pt-2.5">
                                 <a href="{% url 'edit_expense' expense.id %}" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-[11px] font-medium py-1.5 px-3 rounded-lg transition duration-150">
                                     ویرایش
-                                </a >
+                                </a>
                                 <a href="{% url 'delete_expense' expense.id %}" onclick="return confirm('آیا از حذف این هزینه مطمئن هستید؟ با حذف این هزینه تمام فاکتورهای مربوط به واحدها پاک خواهند شد.');" class="bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white text-[11px] font-medium py-1.5 px-3 rounded-lg transition duration-150">
                                     حذف
                                 </a>
@@ -130,6 +135,14 @@
 
         </div>
     </div>
+
+    {% if messages %}
+        <script>
+            {% for message in messages %}
+                alert("{{ message }}");
+            </script>
+        {% endfor %}
+    {% endif %}
 
 </body>
 </html>
