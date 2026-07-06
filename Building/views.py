@@ -3,9 +3,10 @@ from .models import BuildManager, BuildingExpense, Unit
 from Finance.models import Payment, Invoice
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login
 import random
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 
 def register_new_manager(request):
     if request.method == "POST":
@@ -117,6 +118,7 @@ def update_manager_info(request, manager_id):
         if new_password and new_password.strip() != "":
             manager.set_password(new_password)
         manager.save()
+        login(request, manager)
         messages.success(request, "اطلاعات مدیریتی شما با موفقیت بروزرسانی شد.")
         return redirect('manager_dashboard')
     context = {'manager': manager}
