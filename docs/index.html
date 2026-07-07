@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حساب‌کتاب | سامانه هوشمند مدیریت مالی ساختمان</title>
+<meta name="description" content="حساب‌کتاب — وب‌اپلیکیشن جنگویی برای مدیریت هزینه، تقسیم خودکار شارژ و پیگیری فاکتور واحدهای ساختمان.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #EAE3D0;
+    --paper-dark: #DED2B4;
+    --paper-line: #C7B991;
+    --ink: #23303A;
+    --ink-soft: #4A5560;
+    --green: #33503F;
+    --green-deep: #223A2C;
+    --stamp: #9C3B2E;
+    --brass: #A9803F;
+    --brass-light: #C9A560;
+    --hole: #F5F1E4;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 2.15em,
+        var(--paper-line) 2.15em,
+        var(--paper-line) calc(2.15em + 1px)
+      ),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Vazirmatn', sans-serif;
+    line-height:1.9;
+  }
+
+  .mono{ font-family:'IBM Plex Mono', monospace; direction:ltr; unicode-bidi:isolate; }
+
+  a{color:inherit;}
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 22px;}
+
+  /* ---------- header ---------- */
+  header.top{
+    border-bottom:3px solid var(--ink);
+    background:var(--paper);
+    position:sticky; top:0; z-index:30;
+  }
+  header.top .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:16px; padding-bottom:16px;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-mark{
+    width:42px; height:42px; border:2.5px solid var(--ink); border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--paper-dark); font-size:20px; flex:none;
+  }
+  .brand h1{font-size:1.15rem; margin:0; font-weight:800; letter-spacing:.2px;}
+  .brand span.tag{display:block; font-size:.72rem; color:var(--ink-soft); font-weight:500; margin-top:1px;}
+  nav.top-links{display:flex; gap:10px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:9px 18px; border-radius:999px; border:2px solid var(--ink);
+    font-weight:600; font-size:.88rem; text-decoration:none; white-space:nowrap;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-solid{background:var(--green); border-color:var(--green-deep); color:#F4EFDE;}
+  .btn-ghost{background:transparent;}
+  .btn:hover{transform:translateY(-2px); box-shadow:0 3px 0 var(--ink);}
+  .btn-solid:hover{box-shadow:0 3px 0 var(--green-deep);}
+  @media (max-width:640px){ nav.top-links .label-long{display:none;} }
+
+  /* ---------- hero ---------- */
+  .hero{padding:64px 0 40px;}
+  .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:52px; align-items:center;}
+  @media (max-width:880px){ .hero-grid{grid-template-columns:1fr;} }
+
+  .eyebrow{
+    display:inline-block; font-size:.78rem; font-weight:600; color:var(--green-deep);
+    background:var(--paper-dark); border:1px solid var(--paper-line);
+    padding:5px 12px; border-radius:5px; margin-bottom:18px; letter-spacing:.2px;
+  }
+  .hero h2{font-size:2.5rem; line-height:1.35; margin:0 0 20px; font-weight:800;}
+  .hero h2 em{font-style:normal; color:var(--green); border-bottom:4px solid var(--brass-light); padding-bottom:2px;}
+  .hero p.lead{font-size:1.05rem; color:var(--ink-soft); max-width:46ch; margin:0 0 30px;}
+  .hero .ctas{display:flex; gap:14px; flex-wrap:wrap;}
+
+  /* invoice hero card */
+  .invoice-stage{position:relative; display:flex; justify-content:center;}
+  .invoice{
+    position:relative;
+    width:100%; max-width:360px;
+    background:var(--hole);
+    border:2px solid var(--ink);
+    border-radius:10px;
+    padding:26px 26px 22px;
+    box-shadow:8px 8px 0 var(--paper-line);
+  }
+  .invoice::before{
+    content:"";
+    position:absolute; inset-inline-start:-11px; top:0; bottom:0; width:22px;
+    background-image:radial-gradient(circle 6px, var(--paper) 6px, transparent 6.3px);
+    background-repeat:repeat-y; background-position:center; background-size:22px 30px;
+  }
+  .invoice-head{display:flex; justify-content:space-between; align-items:baseline; border-bottom:1.5px dashed var(--paper-line); padding-bottom:12px; margin-bottom:14px;}
+  .invoice-head .num{font-size:.72rem; color:var(--ink-soft);}
+  .invoice-title{font-weight:700; font-size:1.05rem;}
+  .invoice-row{display:flex; justify-content:space-between; font-size:.85rem; padding:6px 0; border-bottom:1px dotted var(--paper-line);}
+  .invoice-row .v{font-weight:600;}
+  .invoice-total{display:flex; justify-content:space-between; margin-top:14px; padding-top:12px; border-top:2px solid var(--ink); font-weight:800; font-size:1.15rem;}
+  .stamp{
+    position:absolute; top:-18px; inset-inline-end:-14px;
+    border:3px solid var(--stamp); color:var(--stamp);
+    border-radius:50%; width:104px; height:104px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    font-weight:800; font-size:.78rem; line-height:1.25;
+    transform:rotate(-14deg);
+    background:rgba(245,241,228,.55);
+    animation:stampdown .5s cubic-bezier(.2,1.4,.4,1) .15s both;
+  }
+  @keyframes stampdown{
+    0%{ transform:rotate(-14deg) scale(2.4); opacity:0; }
+    70%{ opacity:1; }
+    100%{ transform:rotate(-14deg) scale(1); opacity:1; }
+  }
+  @media (prefers-reduced-motion:reduce){ .stamp{animation:none;} }
+
+  /* ---------- perforation divider ---------- */
+  .tear{
+    height:24px; margin:8px 0 0;
+    background-image:radial-gradient(circle 4px, var(--paper) 4px, transparent 4.3px);
+    background-repeat:repeat-x; background-position:top center; background-size:26px 24px;
+    border-top:1.5px dashed var(--paper-line);
+  }
+
+  section{padding:52px 0;}
+  .section-head{margin-bottom:34px; max-width:60ch;}
+  .kicker{font-size:.8rem; font-weight:700; color:var(--green); letter-spacing:.3px; margin:0 0 8px;}
+  h3.section-title{font-size:1.7rem; margin:0; font-weight:800;}
+
+  /* why block */
+  blockquote.ledger-quote{
+    border-inline-start:5px solid var(--brass);
+    margin:0; padding:6px 24px; font-size:1.05rem; color:var(--ink-soft);
+    max-width:70ch;
+  }
+
+  /* features ledger rows */
+  .features{display:grid; grid-template-columns:1fr 1fr; gap:36px;}
+  @media (max-width:780px){ .features{grid-template-columns:1fr;} }
+  .ledger-card{background:var(--paper-dark); border:1.5px solid var(--ink); border-radius:8px; padding:22px 24px;}
+  .ledger-card h4{margin:0 0 14px; font-size:1.05rem; font-weight:800; display:flex; align-items:center; gap:8px;}
+  .ledger-item{display:flex; align-items:baseline; gap:8px; padding:9px 0; border-bottom:1px dotted var(--paper-line); font-size:.92rem;}
+  .ledger-item:last-child{border-bottom:none;}
+  .ledger-item .leader{flex:1; border-bottom:1px dotted var(--ink-soft); opacity:.4; transform:translateY(-4px);}
+  .ledger-item .mark{color:var(--green); font-weight:700; font-family:'IBM Plex Mono', monospace;}
+
+  /* flow / how it works */
+  .flow{position:relative; padding-inline-start:26px;}
+  .flow::before{content:""; position:absolute; inset-inline-start:11px; top:6px; bottom:6px; width:2px; background:var(--paper-line);}
+  .flow-step{position:relative; padding-inline-start:34px; padding-bottom:28px;}
+  .flow-step:last-child{padding-bottom:0;}
+  .flow-step .n{
+    position:absolute; inset-inline-start:0; top:0;
+    width:24px; height:24px; border-radius:50%; background:var(--green); color:#F4EFDE;
+    display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:700;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .flow-step h5{margin:0 0 4px; font-size:1rem; font-weight:700;}
+  .flow-step p{margin:0; color:var(--ink-soft); font-size:.92rem; max-width:58ch;}
+
+  /* tech stamps */
+  .stamps-row{display:flex; flex-wrap:wrap; gap:16px;}
+  .tech-stamp{
+    border:2px solid var(--ink); border-radius:8px; padding:10px 16px;
+    font-size:.85rem; font-weight:600; background:var(--hole);
+    transform:rotate(var(--r,-1.5deg));
+  }
+  .tech-stamp:nth-child(2n){--r:1.5deg;}
+  .tech-stamp:nth-child(3n){--r:-1deg;}
+  .tech-stamp span{display:block; font-size:.68rem; color:var(--ink-soft); font-weight:500; margin-top:2px;}
+
+  /* architecture cards */
+  .arch-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  @media (max-width:780px){ .arch-grid{grid-template-columns:1fr;} }
+  .arch-card{border:1.5px solid var(--ink); border-radius:8px; overflow:hidden; background:var(--hole);}
+  .arch-card .tab{background:var(--green); color:#F4EFDE; padding:9px 16px; font-weight:700; font-size:.9rem;}
+  .arch-card .body{padding:16px 18px;}
+  .arch-card ul{margin:0; padding-inline-start:20px; font-size:.88rem; color:var(--ink-soft);}
+  .arch-card code{font-family:'IBM Plex Mono', monospace; direction:ltr; unicode-bidi:isolate; background:var(--paper-dark); padding:1px 5px; border-radius:4px; font-size:.82em;}
+
+  /* roadmap */
+  .roadmap{list-style:none; margin:0; padding:0; display:grid; gap:10px;}
+  .roadmap li{display:flex; gap:10px; align-items:flex-start; font-size:.94rem;}
+  .roadmap .box{width:18px; height:18px; border:2px solid var(--ink); border-radius:4px; flex:none; margin-top:3px;}
+
+  /* footer */
+  footer{border-top:3px solid var(--ink); padding:40px 0 34px; background:var(--paper-dark);}
+  .footer-grid{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;}
+  .footer-stamp{
+    border:3px solid var(--stamp); color:var(--stamp); border-radius:12px;
+    padding:8px 18px; font-weight:800; transform:rotate(-3deg); font-size:.9rem;
+  }
+  footer .links{display:flex; gap:18px; font-size:.9rem;}
+  footer .fine{margin-top:20px; font-size:.78rem; color:var(--ink-soft); text-align:center;}
+
+  ::selection{background:var(--brass-light); color:var(--ink);}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-mark">🧾</div>
+      <div>
+        <h1>حساب‌کتاب</h1>
+        <span class="tag">سامانه مدیریت مالی ساختمان</span>
+      </div>
+    </div>
+    <nav class="top-links">
+      <a class="btn btn-ghost" href="https://github.com/Mobinsadeqian/HesabKetab" target="_blank" rel="noopener">
+        <span class="label-long">مخزن</span> گیت‌هاب
+      </a>
+      <a class="btn btn-solid" href="https://hesabketab.pythonanywhere.com/" target="_blank" rel="noopener">
+        مشاهده دمو زنده
+      </a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">پروژهٔ شخصی · Django</span>
+      <h2>هزینه‌های ساختمان را <em>مثل یک دفترحساب</em> شفاف نگه دارید.</h2>
+      <p class="lead">مدیر یک هزینه ثبت می‌کند، حساب‌کتاب آن را بین همهٔ واحدها تقسیم و برای هرکدام فاکتور جداگانه صادر می‌کند؛ ساکن هم فقط با یک کد، بدون ثبت‌نام، صورت‌حساب خودش را می‌بیند و رسید واریزی آپلود می‌کند.</p>
+      <div class="ctas">
+        <a class="btn btn-solid" href="https://hesabketab.pythonanywhere.com/" target="_blank" rel="noopener">ورود به دمو ↗</a>
+        <a class="btn btn-ghost" href="https://github.com/Mobinsadeqian/HesabKetab" target="_blank" rel="noopener">دیدن کد در گیت‌هاب</a>
+      </div>
+    </div>
+
+    <div class="invoice-stage">
+      <div class="invoice">
+        <div class="stamp">نسخه<br>دمو</div>
+        <div class="invoice-head">
+          <span class="invoice-title">فاکتور واحد ۴</span>
+          <span class="num mono">#48213077</span>
+        </div>
+        <div class="invoice-row"><span>بابت</span><span class="v">شارژ آسانسور</span></div>
+        <div class="invoice-row"><span>مهلت پرداخت</span><span class="v mono">1404/05/10</span></div>
+        <div class="invoice-row"><span>وضعیت</span><span class="v" style="color:var(--green)">پرداخت‌ شده</span></div>
+        <div class="invoice-total"><span>مبلغ سهم واحد</span><span class="mono">۲,۴۵۰,۰۰۰</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tear wrap" style="max-width:1080px; margin-inline:auto;"></div>
+
+<section>
+  <div class="wrap">
+    <blockquote class="ledger-quote">
+      مدیریت شارژ ساختمان معمولاً روی اکسل، دفترچهٔ کاغذی یا گروه تلگرام انجام می‌شود — و همین باعث می‌شود پیگیری بدهی هر واحد و شفافیت هزینه‌ها سخت شود. حساب‌کتاب همین فرآیند را دیجیتال می‌کند.
+    </blockquote>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">امکانات</p>
+      <h3 class="section-title">دو نقش، یک دفترحساب مشترک</h3>
+    </div>
+    <div class="features">
+      <div class="ledger-card">
+        <h4>👤 مدیر ساختمان</h4>
+        <div class="ledger-item"><span>ثبت‌نام با کد ساختمان خودکار</span><span class="leader"></span><span class="mark">✓</span></div>
+        <div class="ledger-item"><span>تعریف و ویرایش واحدها</span><span class="leader"></span><span class="mark">✓</span></div>
+        <div class="ledger-item"><span>ثبت هزینه و تقسیم خودکار بین واحدها</span><span class="leader"></span><span class="mark">✓</span></div>
+        <div class="ledger-item"><span>صدور خودکار فاکتور برای هر واحد</span><span class="leader"></span><span class="mark">✓</span></div>
+        <div class="ledger-item"><span>تأیید وضعیت پرداخت فاکتورها</span><span class="leader"></span><span class="mark">✓</span></div>
+        <div class="ledger-item"><span>ویرایش اطلاعات حساب مدیر</span><span class="leader"></span><span class="mark">✓</span></div>
+      </div>
+      <div class="ledger-card">
+        <h4>🏠 ساکن واحد</h4>
+        <div class="ledger-item"><span>ورود سریع فقط با کد ساختمان</span><span class="leader"></span><span class="mark">✓</span></div>
+        <div class="ledger-item"><span>مشاهدهٔ فاکتورهای واحد و وضعیت هرکدام</span><span class="leader"></span><span class="mark">✓</span></div>
+        <div class="ledger-item"><span>آپلود تصویر رسید واریزی</span><span class="leader"></span><span class="mark">✓</span></div>
+        <div class="ledger-item"><span>اطلاع‌رسانی پرداخت از طریق تلگرام</span><span class="leader"></span><span class="mark" style="color:var(--brass); opacity:.8">◐</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="flow">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">جریان کار</p>
+      <h3 class="section-title">از ثبت هزینه تا تأیید پرداخت</h3>
+    </div>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="n">۱</div>
+        <h5>ثبت هزینهٔ مشترک</h5>
+        <p>مدیر عنوان و مبلغ کل هزینه (مثلاً شارژ آسانسور) را ثبت می‌کند.</p>
+      </div>
+      <div class="flow-step">
+        <div class="n">۲</div>
+        <h5>تقسیم خودکار بین واحدها</h5>
+        <p>مبلغ به‌طور مساوی بین تمام واحدهای ثبت‌شدهٔ ساختمان تقسیم می‌شود.</p>
+      </div>
+      <div class="flow-step">
+        <div class="n">۳</div>
+        <h5>صدور فاکتور جداگانه</h5>
+        <p>برای هر واحد، فاکتوری با شناسهٔ یکتا و سهم دقیق آن واحد صادر می‌شود.</p>
+      </div>
+      <div class="flow-step">
+        <div class="n">۴</div>
+        <h5>آپلود رسید توسط ساکن</h5>
+        <p>ساکن با کد ساختمان وارد می‌شود و تصویر رسید واریزی را برای فاکتور مربوطه آپلود می‌کند.</p>
+      </div>
+      <div class="flow-step">
+        <div class="n">۵</div>
+        <h5>تأیید نهایی مدیر</h5>
+        <p>مدیر رسید را بررسی و وضعیت فاکتور را به «پرداخت‌شده» تغییر می‌دهد.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tech">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">پشتهٔ فنی</p>
+      <h3 class="section-title">با چه چیزی ساخته شده</h3>
+    </div>
+    <div class="stamps-row">
+      <div class="tech-stamp">Python<span>زبان اصلی</span></div>
+      <div class="tech-stamp">Django 6.0<span>بک‌اند</span></div>
+      <div class="tech-stamp">SQLite<span>پایگاه داده</span></div>
+      <div class="tech-stamp">jdatetime<span>تقویم شمسی</span></div>
+      <div class="tech-stamp">Pillow<span>مدیریت تصویر رسید</span></div>
+      <div class="tech-stamp">Tailwind CSS<span>رابط کاربری</span></div>
+      <div class="tech-stamp">Vazirmatn<span>فونت فارسی</span></div>
+      <div class="tech-stamp">PythonAnywhere<span>دیپلوی</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">معماری</p>
+      <h3 class="section-title">دو اپ جنگوی مستقل و مرتبط</h3>
+    </div>
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="tab">Building</div>
+        <div class="body">
+          <ul>
+            <li><code>BuildManager</code> — مدل کاربر سفارشی مدیر (جایگزین User پیش‌فرض)</li>
+            <li><code>Unit</code> — واحدهای ساختمان با شناسهٔ یکتا</li>
+            <li><code>BuildingExpense</code> — هزینه‌های ثبت‌شده با تاریخ شمسی</li>
+          </ul>
+        </div>
+      </div>
+      <div class="arch-card">
+        <div class="tab">Finance</div>
+        <div class="body">
+          <ul>
+            <li><code>Invoice</code> — فاکتور هر واحد به ازای هر هزینه</li>
+            <li><code>Payment</code> — رکورد پرداخت با کد پیگیری و وضعیت تأیید</li>
+            <li>ارجاع مستقیم به <code>Unit</code> و <code>BuildingExpense</code> از اپ Building</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kicker">نقشهٔ راه</p>
+      <h3 class="section-title">در دست ساخت</h3>
+    </div>
+    <ul class="roadmap">
+      <li><span class="box"></span> ساخت REST API با Django REST Framework</li>
+      <li><span class="box"></span> اطلاع‌رسانی از طریق ربات تلگرام (بر پایهٔ <span class="mono">telegram_chat_id</span>)</li>
+      <li><span class="box"></span> تکمیل چرخهٔ تأیید پرداخت با کد پیگیری بانکی</li>
+      <li><span class="box"></span> نوشتن تست‌های خودکار</li>
+      <li><span class="box"></span> پنل گزارش‌گیری مالی برای مدیر</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-stamp">ساخته‌شده توسط مبین</div>
+      <div class="links">
+        <a href="https://github.com/Mobinsadeqian" target="_blank" rel="noopener">گیت‌هاب</a>
+        <a href="https://t.me/Mobinsadeqian" target="_blank" rel="noopener">تلگرام</a>
+        <a href="mailto:mobinsadeghian2003@gmail.com">ایمیل</a>
+      </div>
+    </div>
+    <p class="fine">حساب‌کتاب یک پروژهٔ شخصی و در حال توسعه است · ساخته‌شده با Django</p>
+  </div>
+</footer>
+
+</body>
+</html>
