@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import jdatetime
 
 class BuildManager(AbstractUser):
     is_staff = models.BooleanField(default=False)
@@ -35,6 +36,16 @@ class BuildingExpense(models.Model):
     title = models.CharField(max_length=255, verbose_name='عنوان هزینه')
     total_amount = models.DecimalField(max_digits=12, decimal_places=0, verbose_name='مبلغ کل (تومان)')
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت')
+
+    @property
+    def jalali_date(self):
+        if self.date_created:
+            # 🌟 روش استاندارد و بدون خطا برای تبدیل به شمسی با فرمت دلخواه
+            date_shamsi = jdatetime.date.fromgregorian(
+                date=self.date_created
+            )
+            return date_shamsi.strftime("%Y/%m/%d")
+        return ""
 
     def __str__(self):
         return f"{self.title} - {self.total_amount:,} تومان"
